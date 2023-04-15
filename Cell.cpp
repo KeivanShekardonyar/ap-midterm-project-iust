@@ -441,7 +441,56 @@ class cell : private genome{
                 r1[i]=dna2[n][i];
                 i++;
             }
-        }
+        }void SmallMutation(char c1 , char c2 , int n , int m ){
+        	int counter = 1 ;
+        	for (int i = 0 ; i<dna1[m].length() ; i++){
+        		if(counter > n){
+        			break ;
+				}
+        		if(dna1[m].at(i) == c1){
+        			dna1[m].at(i) = c2 ;
+        			switch(c2){
+        				case 'A' :
+        				    dna2[m].at(i) = 'T' ;	
+        				    break ;
+        				case 'T' :
+        					dna2[m].at(i) = 'A' ;
+        					break ;
+        				case 'C' :
+						    dna2[m].at(i) = 'G' ;
+							break ;
+						case 'G' :
+						    dna2[m].at(i) = 'C' ;		
+					}
+        			
+        			counter++ ;
+				}
+			}
+			///cout << dna1[m] << endl << dna2[m] << endl;
+		}
+		
+		
+		
+		void BasicPalindrome(int n){
+			for(int i =4 ; i <= dna1[n].length() ; i=i+2){
+				for(int j = 0 ; j <= dna1[n].length()-i ; j++){
+					string newS1 ;
+					string newS2 ;
+					for(int t = j ; t < j+(i/2) ; t++ ){
+						newS1 += dna1[n].at(t);
+						newS2 += dna2[n].at(t+(i/2)  );	
+					}
+					
+					if (newS1 == newS2){
+						string finalS;
+					   for(int z = j ; z < j + i ; z ++){
+					   	    finalS+= dna1[n].at(z);
+					   }
+					   cout << finalS << endl ;
+					}
+				}
+			}
+		}
         
         
         
