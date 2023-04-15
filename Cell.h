@@ -1,6 +1,8 @@
 #include<iostream>
+#include<cstdlib>
 #include<string>
 #include<vector>
+#pragma once
 using namespace std;
 class genome{
     private:
@@ -24,7 +26,7 @@ class genome{
                     dna[1][i]='C';
                 }
             }
-        }string dnafromrna(){
+        }void dnafromrna(){
             string d=rna;
             int b=rna.size(); ///RNA length
             for(int i=0;i<b;i++){
@@ -239,11 +241,24 @@ class cell : private genome{
     private:
         vector<string> dna1;
         vector<string> dna2;
+        int chromosome_count; 
     public:
-        cell(genome g){
-            dna1.push_back(g.getdna1());
-            dna2.push_back(g.getdna2());
-        }void cell_death(){
+        cell(int n){
+            chromosome_count=n;
+        }void setcell(){
+            for(int i=0;i<chromosome_count;i++){
+                genome g;
+                string s1;
+                cin>>s1;
+                g.setdna(s1);
+                dna1.push_back(g.getdna1);
+                dna2.push_back(g.getdna2);
+            }
+        }
+        vector <string> getdna (){
+            return dna1;
+        }
+        void cell_death(){
             for(int i=0;i<dna1.size();i++){
                 bool a=0;
                 int b=0;
@@ -427,10 +442,43 @@ class cell : private genome{
                 i++;
             }
         }
+        
+        
+        
+        
 };
+
+
+
+
+
+
 int main(){
-    genome g;
-    g.setdna("TATGGA");
-    g.setrna("TATGAA");
-    g.reverse_mutation("TG");
+//   genome g;
+//   g.setdna("TATAATATATTTTC");
+//   g.setrna("TATGAA");
+//    cell c(g) ;
+//    animal a;
+//    c.SmallMutation('A','C', 3 , 0);
+//    c.BasicPalindrome(g.getdna1() , g.getdna2()) ;
+//    vector <string> s1 ;
+//    s1.push_back("TTTTTTTTTTT") ;
+//    s1.push_back("AAAAAAAAAA") ;
+//    s1.push_back("WWWWWWWWWW") ;
+//    s1.push_back("EEEEEEEEEE");
+//    s1.push_back("HGSHGSHDSHDG");
+//    s1.push_back("ystdsydgshdgshjdg");
+//    vector <string> s2  ;
+//    s2.push_back("TTTTTTTTTTT") ;
+//    s2.push_back("AAAAAAAAAA") ;
+//    s2.push_back("WWWWWWWWWW") ;
+//    s2.push_back("EEEEEEEEEz");
+//    s2.push_back("HGSHGSHDSHDG");
+//    s2.push_back("ystdsydgshdgshjdg");
+//    cout << endl << a.GSimularity("TTTTTTTCGGGT" , "TTTCTTTTTTCG") ;
+//    a.gSimularity(s1 , s2);
+//    cout << a.species(s1 ,s2 );
+//    a.AsexualReproduction(s1);
+//    a.SextualReproduction(s1 , s2);
+    return 0 ;
 }
