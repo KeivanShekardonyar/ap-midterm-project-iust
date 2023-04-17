@@ -396,7 +396,7 @@ class cell : private genome{
                 f1[i2]=dna2[m][i2];
                 i2++;
             }
-        }void reverse_mutation(string s,int n){
+        void reverse_mutation(string s,int n){
             string s1,r1,r2,r3,t1,t2,t3;
             int a=dna1[n].size();
             int c=s.size();
