@@ -2,13 +2,40 @@
 #include<cstdlib>
 #include<string>
 #include<vector>
+#include<algorithm>
 #pragma once
 using namespace std;
+
+int naive_algo(string text , string pattern)
+	{
+		int n = text.length();
+		int m = pattern.length();
+		for (int i=0 ; i<=n-m ; i++)
+			{
+				int j=0;
+				for (j ; j<m ; j++)
+					{
+						if (text[i+j] != pattern[j])
+							break;
+					}
+				if (j == m)
+					return i;
+			}
+		return -1;
+	}
+
 class genome{
     private:
         string rna;
         string dna[2]; 
     public:
+		genome(){}
+		genome(string a,string b,string c)
+			{
+				rna=a;
+				dna[0]=b;
+				dna[1]=c;
+			}
         void setrna(string a){
             rna=a;
         }void setdna(string a){
@@ -81,160 +108,58 @@ class genome{
                 }
             }
         }void big_mutation(string s1,string s2){
-            int a=rna.size();
-            int b=s1.size();
-            int c=s2.size();
-            string t1,t2,t3;
-            bool w,v=0;
-            int i,jj=0;
-            while(i<a && w==0){
-                t2="";
-                for(int j=0;j<b;j++){
-                    t2+=" ";
-                    t2[j]=rna[i+j];
-                }if(t2==s1){
-                    t2=s2;
-                    for(int k=0;k<a-i-b;k++){
-                        t3+=" ";
-                        t3[k]=rna[k+i+b];
-                    }rna=t1+t2+t3;
-                    w=1;
-                }
-                t1+=" ";
-                t1[i]=rna[i];
-                i++;
-            }int x=dna[0].size();
-            string r1,r2,r3,d1,d2,d3;
-            string s3;
-            for(int ii=0;ii<c;ii++){
-                if(s2[ii]=='A'){
-                    s3+=" ";
-                    s3[ii]='T';
-                }else if(s2[ii]=='T'){
-                    s3+=" ";
-                    s3[ii]='A';
-                }else if(s2[ii]=='C'){
-                    s3+=" ";
-                    s3[ii]='G';
-                }else if(s2[ii]=='G'){
-                    s3+=" ";
-                    s3[ii]='C';
-                }
-            }
-            while(jj<x && v==0){
-                r2="";
-                d2="";
-                for(int kk=0;kk<b;kk++){
-                    r2+=" ";
-                    r2[kk]=dna[0][kk+jj];
-                    d2+=" ";
-                    d2[kk]=dna[1][kk+jj];
-                }if(r2==s1){
-                    r2=s2;
-                    d2=s3;
-                    for(int l=0;l<x-b-jj;l++){
-                        r3+=" ";
-                        r3[l]=dna[0][l+b+jj];
-                        d3+=" ";
-                        d3[l]=dna[1][l+b+jj];
-                    }dna[0]=r1+r2+r3;
-                    dna[1]=d1+d2+d3;
-                    v=1;
-                }else if(d2==s1){
-                    d2=s2;
-                    r2=s3;
-                    for(int l=0;l<x-b-jj;l++){
-                        r3+=" ";
-                        r3[l]=dna[0][l+b+jj];
-                        d3+=" ";
-                        d3[l]=dna[1][l+b+jj];
-                    }dna[0]=r1+r2+r3;
-                    dna[1]=d1+d2+d3;
-                    v=1;        
-                }r1+=" ";
-                r1[jj]=dna[0][jj];
-                d1+=" ";
-                d1[jj]=dna[1][jj];
-                jj++;
-            }
-        }void reverse_mutation(string s1){
-            string s3,t1,t2,t3,r1,r2,r3,d1,d2,d3;
-            int c=s1.size();
-            int a=rna.size();
-            int b=dna[0].size();
-            bool w,v=0;
-            for(int i=0;i<c;i++){
-                if(s1[i]=='A'){
-                    s3+=" ";
-                    s3[i]='T';
-                }else if(s1[i]=='T'){
-                    s3+=" ";
-                    s3[i]='A';
-                }else if(s1[i]=='C'){
-                    s3+=" ";
-                    s3[i]='G';
-                }else if(s1[i]=='G'){
-                    s3+=" ";
-                    s3[i]='C';
-                }
-            }int j,k=0;
-            while(j<a && w==0){
-                t2="";
-                for(int j0=0;j0<c;j0++){
-                    t2+=" ";
-                    t2[j0]=rna[j0+j];
-                }if(t2==s1){
-                    t2=s3;
-                    for(int j1=0;j1<a-j-c;j1++){
-                        t3+=" ";
-                        t3[j1]=rna[j1+j+c];
-                    }rna=t1+t2+t3;
-                    w=1;
-                }t1+=" ";
-                t1[j]=rna[j];
-                j++;
-            }while(k<b && v==0){
-                r2="";
-                d2="";
-                for(int k0=0;k0<c;k0++){
-                    r2+=" ";
-                    r2[k0]=dna[0][k0+k];
-                    d2+=" ";
-                    d2[k0]=dna[1][k0+k];
-                }if(r2==s1){
-                    r2=s3;
-                    d2=s1;
-                    for(int k1=0;k1<b-c-k;k1++){
-                        r3+=" ";
-                        r3[k1]=dna[0][k1+c+k];
-                        d3+=" ";
-                        d3[k1]=dna[1][k1+c+k];
-                    }dna[0]=r1+r2+r3;
-                    dna[1]=d1+d2+d3;
-                    v=1;
-                }else if(d2==s1){
-                    d2=s3;
-                    r2=s1;
-                    for(int k1=0;k1<b-c-k;k1++){
-                        r3+=" ";
-                        r3[k1]=dna[0][k1+c+k];
-                        d3+=" ";
-                        d3[k1]=dna[1][k1+c+k];
-                    }dna[0]=r1+r2+r3;
-                    dna[1]=d1+d2+d3;
-                    v=1;
-                }r1+=" ";
-                r1[k]=dna[0][k];
-                d1+=" ";
-                d1[k]=dna[1][k];
-                k++;
-            }
-        }void getrna(){
+            int t1 = naive_algo(rna,s1);
+			int t2 = naive_algo(dna[0],s1);
+			int t3 = naive_algo(dna[1],s1);
+			int m = s1.length();
+			if (t1!=-1)
+				rna.replace(t1,m,s2);
+			if (t2!=-1 && t3!=-1)
+				{
+					if (t2 <= t3)
+						{
+							dna[0].replace(t2,m,s2);
+							setdna(dna[0]);
+						}
+					else
+						{
+							string temp;
+							dna[1].replace(t3,m,s2);
+							setdna(dna[1]);
+							temp = dna[1];
+							dna[1] = dna[0];
+							dna[0] = temp;
+						}
+				}
+			else if (t2!=-1)
+				{
+					dna[0].replace(t2,m,s2);
+					setdna(dna[0]);
+				}
+			else if (t1!=-1)
+				{
+					string temp;
+					dna[1].replace(t3,m,s2);
+					setdna(dna[1]);
+					temp = dna[1];
+					dna[1] = dna[0];
+					dna[0] = temp;
+				}
+
+        }
+		void reverse_mutation(string s2){
+        string s1 = s2;
+        reverse(s2.begin() , s2.end());
+    	big_mutation(s1,s2);
+		}void getrna(){
             cout<<rna<<endl;
         }string getdna1(){
             return dna[0];
         }string getdna2(){
             return dna[1];
+        }void display(){
+            getrna();
+            cout<<getdna1()<<endl<<getdna2()<<endl;
         }
 };
 class cell : private genome{
@@ -243,16 +168,21 @@ class cell : private genome{
         vector<string> dna2;
         int chromosome_count; 
     public:
+        void display(){
+            for(int i=0;i<chromosome_count;i++){
+                cout<<dna1[i]<<endl<<dna2[i]<<endl;
+            }
+        }
         cell(int n){
             chromosome_count=n;
-        }void setcell(){
+        }void setcell(vector <string> s){
             for(int i=0;i<chromosome_count;i++){
                 genome g;
                 string s1;
-                cin>>s1;
+                s1=s[i];
                 g.setdna(s1);
-                dna1.push_back(g.getdna1);
-                dna2.push_back(g.getdna2);
+                dna1.push_back(g.getdna1());
+                dna2.push_back(g.getdna2());
             }
         }
         vector <string> getdna (){
@@ -266,8 +196,9 @@ class cell : private genome{
                     if(dna1[i][j]==dna2[i][j]){
                         b++;
                     }if(b==5){
-                        dna1.erase(dna1.begin()+i);
-                        dna2.erase(dna2.begin()+i);
+                        ///dna1.erase(dna1.begin()+i);
+                        ///dna2.erase(dna2.begin()+i);
+                        delete this;
                         a=1;
                         break;
                     }
@@ -280,172 +211,85 @@ class cell : private genome{
                             t++;
                         }c*=3;
                         if(t>c){
-                            dna1.erase(dna1.begin()+i);
-                            dna2.erase(dna2.begin()+i);
+                            ///dna1.erase(dna1.begin()+i);
+                            ///dna2.erase(dna2.begin()+i);
+                            delete this;
                         }
                     }
                 }
             }
         }void big_mutation(string s1,int n,string s2,int m){
-            int a1=dna1[n].size();
-            int a2=dna1[m].size();
-            int c1=s1.size();
-            int c2=s2.size();
-            bool w,v=0;
-            int i1,i2=0;
-            string t1,t2,t3,r1,r2,r3,d1,d2,d3,f1,f2,f3,s3,s4;
-            for(int i=0;i<c1;i++){
-                if(s1[i]=='A'){
-                    s3+=" ";
-                    s3[i]='T';
-                }else if(s1[i]=='T'){
-                    s3+=" ";
-                    s3[i]='A';
-                }else if(s1[i]=='C'){
-                    s3+=" ";
-                    s3[i]='G';
-                }else if(s1[i]=='G'){
-                    s3+=" ";
-                    s3[i]='C';
-                }
-            }for(int i=0;i<c2;i++){
-                if(s2[i]=='A'){
-                    s4+=" ";
-                    s4[i]='T';
-                }else if(s2[i]=='T'){
-                    s4+=" ";
-                    s4[i]='A';
-                }else if(s2[i]=='C'){
-                    s4+=" ";
-                    s4[i]='G';
-                }else if(s2[i]=='G'){
-                    s4+=" ";
-                    s4[i]='C';
-                }
-            }
-            while(i1<a1 && w==0){
-                t2="";
-                r2="";
-                for(int j1=0;j1<c1;j1++){
-                    t2+=" ";
-                    t2[j1]=dna1[n][j1+i1];
-                    r2+=" ";
-                    r2[j1]=dna2[n][j1+i1];
-                }if(t2==s1){
-                    t2=s2;
-                    r2=s4;
-                    for(int k1=0;k1<a1-i1-c1;k1++){
-                        t3+=" ";
-                        t3[k1]=dna1[n][k1+i1+c1];
-                        r3+=" ";
-                        r3[k1]=dna2[n][k1+i1+c1];
-                    }w=1;
-                    dna1[n]=t1+t2+t3;
-                    dna2[n]=r1+r2+r3;
-                }else if(r2==s1){
-                    r2=s2;
-                    t2=s4;
-                    for(int k1=0;k1<a1-i1-c1;k1++){
-                        t3+=" ";
-                        t3[k1]=dna1[n][k1+i1+c1];
-                        r3+=" ";
-                        r3[k1]=dna2[n][k1+i1+c1];
-                    }w=1;
-                    dna1[n]=t1+t2+t3;
-                    dna2[n]=r1+r2+r3;
-                }
-                t1+=" ";
-                t1[i1]=dna1[n][i1];
-                r1+=" ";
-                r1[i1]=dna2[n][i1];
-                i1++;
-            }while(i2<a2 && v==0){
-                d2="";
-                f2="";
-                for(int j2=0;j2<c2;j2++){
-                    d2+=" ";
-                    d2[j2]=dna2[m][j2+i2];
-                    f2+=" ";
-                    f2[j2]=dna2[m][j2+i2];
-                }if(d2==s2){
-                    d2=s1;
-                    f2=s3;
-                    for(int k2=0;k2<a2-i2-c2;k2++){
-                        d3+=" ";
-                        d3[k2]=dna1[m][k2+i1+c1];
-                        f3+=" ";
-                        f3[k2]=dna2[m][k2+i1+c1];
-                    }v=1;
-                    dna1[m]=d1+d2+d3;
-                    dna2[m]=f1+f2+f3;
-                }else if(f2==s2){
-                    f2=s1;
-                    d2=s3;
-                    for(int k2=0;k2<a2-i2-c2;k2++){
-                        d3+=" ";
-                        d3[k2]=dna1[m][k2+i1+c1];
-                        f3+=" ";
-                        f3[k2]=dna2[m][k2+i1+c1];
-                    }v=1;
-                    dna1[m]=d1+d2+d3;
-                    dna2[m]=f1+f2+f3;
-                }
-                d1+=" ";
-                d1[i2]=dna1[m][i2];
-                f1+=" ";
-                f1[i2]=dna2[m][i2];
-                i2++;
-            }
-        void reverse_mutation(string s,int n){
-            string s1,r1,r2,r3,t1,t2,t3;
-            int a=dna1[n].size();
-            int c=s.size();
-            bool w=0;
-            for(int p=0;p<c;p++){
-                if(s[p]=='A'){
-                    s1+=" ";
-                    s1[p]='T';
-                }else if(s[p]=='T'){
-                    s1+=" ";
-                    s1[p]='A';
-                }else if(s[p]=='C'){
-                    s1+=" ";
-                    s1[p]='G';
-                }else if(s1[p]=='G'){
-                    s1+=" ";
-                    s1[p]='C';
-                }
-            }int i=0;
-            while(i<a && w==0){
-                r2="";
-                t2="";
-                for(int j=0;j<c;j++){
-                    t2+=" ";
-                    t2[j]=dna1[n][j+i];
-                    r2+=" ";
-                    r2[j]=dna2[n][j+i];
-                }if(t2==s){
-                    t2=s1;
-                    r2=s;
-                    for(int k=0;k<a-i-c;k++){
-                        t3+=" ";
-                        t3[k]=dna1[n][k+i+c];
-                        r3+=" ";
-                        r3[k]=dna2[n][k+i+c];
-                    }w=1;
-                    dna1[n]=t1+t2+t3;
-                    dna2[n]=r1+r2+r3;
-                }t1+=" ";
-                t1[i]=dna1[n][i];
-                r1+=" ";
-                r1[i]=dna2[n][i];
-                i++;
-            }
+			int t1 = naive_algo(dna1[n],s1);
+			int t2 = naive_algo(dna2[m],s2);
+			if(t1!=-1 && t2!=-1){
+			genome a1{"",dna1[n],dna2[n]};
+			genome a2{"",dna1[m],dna2[m]};
+			a1.big_mutation(s1,s2);
+			a2.big_mutation(s2,s1);
+			dna1[n]=a1.getdna1();
+			dna2[n]=a1.getdna2();
+			dna1[m]=a2.getdna1();
+			dna2[m]=a2.getdna2(); 
+			}
+        }void reverse_mutation(string s,int n){
+			genome a1{"",dna1[n],dna2[n]};
+			a1.reverse_mutation(s);
+			dna1[n]=a1.getdna1();
+			dna2[n]=a1.getdna2();
         }
         
         
         
-        
+        void SmallMutation(char c1 , char c2 , int n , int m ){
+        	int counter = 1 ;
+        	for (int i = 0 ; i<dna1[m].length() ; i++){
+        		if(counter > n){
+        			break ;
+				}
+        		if(dna1[m].at(i) == c1){
+        			dna1[m].at(i) = c2 ;
+        			switch(c2){
+        				case 'A' :
+        				    dna2[m].at(i) = 'T' ;	
+        				    break ;
+        				case 'T' :
+        					dna2[m].at(i) = 'A' ;
+        					break ;
+        				case 'C' :
+						    dna2[m].at(i) = 'G' ;
+							break ;
+						case 'G' :
+						    dna2[m].at(i) = 'C' ;		
+					}
+        			
+        			counter++ ;
+				}
+			}
+			///cout << dna1[m] << endl << dna2[m] << endl;
+		}
+		
+		
+		
+		void BasicPalindrome(int n){
+			int a=dna1[n].size();
+            string s;
+            for(int i=2;i<=a+1;i+=2){
+                for(int j=0;j<a;j++){
+                    string s="";
+                    bool w=1;
+                    for(int z=0;z<i;z++){
+                        s+=" ";
+                        s[z]=dna1[n][j+z];
+                    }for(int v=0;v<i/2;v++){
+                        if(s[v]!=s[i-v-1]){
+                            w=0;
+                        }
+                    }if(w){
+                        cout<<s<<endl;
+                    }
+                }
+            }
+		}
 };
 
 
@@ -454,6 +298,23 @@ class cell : private genome{
 
 
 int main(){
+    cell c(2);
+    vector <string> v{"TTTTAAAA","CCCCGGGG"};
+	genome a;
+	c.setcell(v);
+	// c.display();
+	c.big_mutation("TTT",0,"CC",1);
+	c.reverse_mutation("CCCGGG",1);
+	// c.display();
+	// a.setrna("TTTAA");
+	// a.setdna("TTTAA");
+	// a.reverse_mutation("TA");
+	// a.display();
+	// a.big_mutation("TT","CGGGG");
+	// a.display();
+    // v.push_back("CCCCAAAA");
+    // c.setcell(v);
+    // c.BasicPalindrome(0);
 //   genome g;
 //   g.setdna("TATAATATATTTTC");
 //   g.setrna("TATGAA");
